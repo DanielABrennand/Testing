@@ -1,0 +1,15 @@
+name: Continuous Deployment to Remote Server
+on:
+  push:
+    branches: [ "main" ]
+
+
+jobs:
+  remote_deployment:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: PrintHello
+      run: ls -la

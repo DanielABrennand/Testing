@@ -22,5 +22,6 @@ jobs:
         port: ${{ secrets.REMOTE_PORT }}
         envs: TEST_VAR_1
         script: |
-          echo $TEST_VAR_1
-          echo There
+          cd ~/Test_Repo/fair-mast/
+          uv sync
+          uv run jb build docs --path-output src/api/static

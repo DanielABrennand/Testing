@@ -20,6 +20,7 @@ jobs:
         username: ${{ secrets.REMOTE_USERNAME }}
         key: ${{ secrets.REMOTE_PRIV_KEY }}
         port: ${{ secrets.REMOTE_PORT }}
+        envs: TEST_VAR_1
         script: |
           echo $TEST_VAR_1
           echo There

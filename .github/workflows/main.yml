@@ -23,5 +23,5 @@ jobs:
         envs: TEST_VAR_1
         script: |
           cd ~/Test_Repo/fair-mast/
-          uv sync
-          uv run jb build docs --path-output src/api/static
+          echo $PATH
+          

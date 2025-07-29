@@ -23,5 +23,6 @@ jobs:
         envs: TEST_VAR_1
         script: |
           cd ~/Test_Repo/fair-mast/
+          source /home/deploy/.local/bin
           echo $PATH
           

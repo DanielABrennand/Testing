@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 env:
-  TEST_VAR_1: Hello_There
+  TEST_VAR_1: Hello
 
 
 jobs:
@@ -20,4 +20,6 @@ jobs:
         username: ${{ secrets.REMOTE_USERNAME }}
         key: ${{ secrets.REMOTE_PRIV_KEY }}
         port: ${{ secrets.REMOTE_PORT }}
-        script: echo $TEST_VAR_1
+        script: |
+          echo $TEST_VAR_1
+          echo There

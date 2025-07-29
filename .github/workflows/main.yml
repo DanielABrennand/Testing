@@ -25,4 +25,5 @@ jobs:
           cd ~/Test_Repo/fair-mast/
           export PATH=/home/deploy/.local/bin:$PATH
           uv sync
+          uv run jb build docs --path-output src/api/static
           

@@ -1,7 +1,9 @@
 name: Continuous Deployment to Remote Server
 on:
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  TEST_VAR_1: Hello_There
 
 
 jobs:
@@ -11,5 +13,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: PrintHello
-      run: ls -la
+    - name: Connect and Deploy on Remote Server
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USERNAME }}
+        key: ${{ secrets.REMOTE_PRIV_KEY }}
+        port: ${{ secrets.REMOTE_PORT }}
+        script: echo $TEST_VAR_1

@@ -1,0 +1,65 @@
+name: CI_Test
+
+on:
+  push:
+    branches:      
+      - dev 
+      - main     
+
+
+jobs:
+  build:
+    needs: check-version
+    runs-on: ubuntu-latest
+    env:
+      BUILD_DIR: ${{ github.ref_name == 'main' && './public' || './public/dev' }}
+      RELEASE_VERSION: ${{ needs.check-version.outputs.is_new == 'true' && needs.check-version.outputs.version || '' }}
+      IS_MAIN: ${{ github.ref_name == 'main' && 'true' || 'false' }}
+      CURRENT_VERSION: ${{ needs.check-version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute safe ref name
+        if: always()
+        run: |
+          SAFE_REF="${GITHUB_REF_NAME//\//-}"
+          echo "SAFE_REF=$SAFE_REF" >> $GITHUB_ENV
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generate html pages             
+        run: |
+            python3 build.py
+
+      - name: Upload root artifact
+        # if BUILD_DIR is set to something non-empty, we upload the whole public struct
+        if: ${{ env.BUILD_DIR != '' && env.BUILD_DIR != null }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: ./public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: ./public
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          # keep_files is true to enable generating either dev or release-specific pages without deleting the other version
+          keep_files: true 

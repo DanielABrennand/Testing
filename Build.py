@@ -12,7 +12,7 @@ if IS_MAIN:
 
 Path(BUILD_DIR).mkdir(parents=True, exist_ok=True)
 
-with open(Path(BUILD_DIR, 'page.html'), 'w') as f:
+with open(Path(BUILD_DIR, 'index.html'), 'w') as f:
 
     message = f"""<html>
     <head></head>

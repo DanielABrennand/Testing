@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 RELEASE_VERSION = os.environ.get('RELEASE_VERSION')
 BUILD_DIR = os.environ.get('BUILD_DIR')
@@ -8,11 +9,10 @@ CURRENT_VERSION = os.environ.get('CURRENT_VERSION', '')
 MSG = "Dev"
 if IS_MAIN:
     MSG = "Main"
-    
-if not os.path.exists(BUILD_DIR):
-    os.mkdir(BUILD_DIR)
-Path = os.path.join(BUILD_DIR, 'page.html')
-with open(Path,'w') as f:
+
+Path(BUILD_DIR).mkdir(parents=True, exist_ok=True)
+
+with open(Path(BUILD_DIR, 'page.html'), 'w') as f:
 
     message = f"""<html>
     <head></head>

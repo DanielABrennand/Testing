@@ -9,7 +9,6 @@ on:
 
 jobs:
   build:
-    needs: check-version
     runs-on: ubuntu-latest
     env:
       BUILD_DIR: ${{ github.ref_name == 'main' && './public' || './public/dev' }}
